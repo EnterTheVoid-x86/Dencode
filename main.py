@@ -7,7 +7,7 @@ import base64
 
 token = "your token here!"
 
-status = "bytes of ascii into base64, binary, and more!"
+status = "bytes of ascii into base64, binary, and more! Prefix is =."
 
 bot = commands.Bot(command_prefix='=', help_command=None)
 
@@ -26,58 +26,65 @@ async def on_command_error(ctx, error):
         await ctx.send("```Missing required argument.```")
 @bot.command()
 async def encode64(ctx, *, message):
-    """Encode a message to base64"""
     await ctx.send("```Encoded output: " + base64.b64encode(message.encode('utf-8')).decode('utf-8') + "```")
 @bot.command()
 async def decode64(ctx, *, message):
-    """Decode a message from base64"""
     await ctx.send("```Decoded output: " + base64.b64decode(message.encode('utf-8')).decode('utf-8') + "```")
 @bot.command()
 async def encodebin(ctx, *, message):
-    """Encode a message to binary"""
     message = message.encode('utf-8').decode('utf-8')
     res = ''.join(format(ord(i), '08b') for i in message)
     await ctx.send("```Encoded output: " + res + "```")
 @bot.command()
 async def decodebin(ctx, *, message):
-    """Decode a message from binary"""
     message = message.encode('utf-8').decode('utf-8')
     res = ''.join(chr(int(message[i:i+8], 2)) for i in range(0, len(message), 8))
     await ctx.send("```Decoded output: " + res + "```")
 @bot.command()
 async def encodehex(ctx, *, message):
-    """Encode a message to hex"""
     message = message.encode('utf-8').decode('utf-8')
     res = ''.join(format(ord(i), '02x') for i in message)
     await ctx.send("```Encoded output: " + res + "```")
 @bot.command()
 async def decodehex(ctx, *, message):
-    """Decode a message from hex"""
     message = message.encode('utf-8').decode('utf-8')
     res = ''.join(chr(int(message[i:i+2], 16)) for i in range(0, len(message), 2))
     await ctx.send("```Decoded output: " + res + "```")
 @bot.command()
 async def experimentalencodeoct(ctx, *, message):
-    """Encode a message to octal"""
     message = message.encode('utf-8').decode('utf-8')
     res = ''.join(format(ord(i), '02o') for i in message)
     await ctx.send("```Encoded output: " + res + "```")
 @bot.command()
 async def experimentaldecodeoct(ctx, *, message):
-    """Decode a message from octal"""
     message = message.encode('utf-8').decode('utf-8')
     res = ''.join(chr(int(message[i:i+3], 8)) for i in range(0, len(message), 3))
     await ctx.send("```Decoded output: " + res + "```")
 @bot.command()
+async def encode32(ctx, *, message):
+    await ctx.send("```Encoded output: " + base64.b32encode(message.encode('utf-8')).decode('utf-8') + "```")
+@bot.command()
+async def decode32(ctx, *, message):
+    await ctx.send("```Decoded output: " + base64.b32decode(message.encode('utf-8')).decode('utf-8') + "```")
+@bot.command()
+async def encode16(ctx, *, message):
+    await ctx.send("```Encoded output: " + base64.b16encode(message.encode('utf-8')).decode('utf-8') + "```")
+@bot.command()
+async def decode16(ctx, *, message):
+    await ctx.send("```Decoded output: " + base64.b16decode(message.encode('utf-8')).decode('utf-8') + "```")
+@bot.command()
+async def encodea85(ctx, *, message):
+    await ctx.send("```Encoded output: " + base64.a85encode(message.encode('utf-8')).decode('utf-8') + "```")
+@bot.command()
+async def decodea85(ctx, *, message):
+    await ctx.send("```Decoded output: " + base64.a85decode(message.encode('utf-8')).decode('utf-8') + "```")
+@bot.command()
 async def info(ctx):
-    """Info about the bot"""
     await ctx.send("```This bot was made by @Nucleus#1922.\nThe source code can be found here: https://github.com/EnterTheVoid-x86/Dencode```")
 @bot.command()
 async def ping(ctx):
-    """Pong!"""
     await ctx.send("```Pong!```")
 @bot.command()
 async def help(ctx):
-    """Help command"""
-    await ctx.send("```Available commands:\n\n=encode64 <message>\n=decode64 <message>\n=encodebin <message>\n=decodebin <message>\n=encodehex <message>\n=decodehex <message>\n=experimentalencodeoct <message>\n=experimentaldecodeoct <message>\n=info\n=ping\n=help```")
+    await ctx.send("```Available commands:\n\n=encode64 <message>\n=decode64 <message>\n=encodebin <message>\n=decodebin <message>\n=encodehex <message>\n=decodehex <message>\n=experimentalencodeoct <message>\n=experimentaldecodeoct <message>\n=encode32 <message>\n=decode32 <message>\n=encode16 <message>\n=decode16 <message>\n=encodea85 <message>\n=decodea85 <message>\n=info\n=ping\n=help\n\nOctal encoding/decoding is experimental, and still has many bugs. For example,\nmessages encoded or decoded with spaces won't encode or decode properly.```")
 bot.run(token)
