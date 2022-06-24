@@ -118,5 +118,6 @@ async def ping(ctx):
     await ctx.send("```Pong!```")
 @bot.command()
 async def help(ctx):
+    print("[HELP] " + str(datetime.datetime.now()))
     await ctx.send("```Available commands:\n\n=encode64 <message>\n=decode64 <message>\n=encodebin <message>\n=decodebin <message>\n=encodehex <message>\n=decodehex <message>\n=experimentalencodeoct <message>\n=experimentaldecodeoct <message>\n=encode32 <message>\n=decode32 <message>\n=encode16 <message>\n=decode16 <message>\n=encodea85 <message>\n=decodea85 <message>\n=encode85 <message>\n=decode85 <message>\n=info\n=ping\n=help\n\nOctal encoding/decoding is experimental, and still has many bugs. For example,\nmessages encoded or decoded with spaces won't encode or decode properly.```")
 bot.run(token)
